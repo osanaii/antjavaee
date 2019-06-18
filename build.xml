@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test" default="distribution">
+    <!-- 定义properties -->
+    <property file="build.properties" />
+    <property name="src.dir" value="src" />
+    <property name="test.dir" value="test" />
+    <property name="classes.dir" value="classes" />
+    <property name="webroot.dir" value="WebRoot" />
+    <!-- 创建工程临时build路径 -->
+    <property name="build.dir" value="build"/>
+    <!-- 最终发布名称 -->
+    <property name="final.name" value="${build.name}-${build.version}"/>
+
+    <!-- 定义classPath -->
+    <path id="compile.classpath">
+        <pathelement location="${classes.dir}"/>
+        <pathelement location="${classes.dir}/src"/>
+        <fileset dir="${webroot.dir}/WEB-INF/lib">
+            <include name="*.jar"/>
+            <include name="*.zip"/>
+        </fileset>
+    </path>
+
+    <!-- 清除不需要的文件 -->
+    <target name="clean">
+        <echo message="Running clean..."/>
+        <echo message="Deleting files..."/>
+        <!-- 清除classes目录 -->
+        <delete dir="${classes.dir}"/>
+        <delete dir="${build.dir}"/>
+        <delete dir="${webroot.dir}/WEB-INF/classes"/>
+    </target>
+
+    <!-- 初始化准备工作 -->
+    <target name="init" depends="clean">
+        <echo message="Running init..."/>
+        <!-- 创建存放构建的目录 -->
+        <mkdir dir="${build.dest}"/>
+        <mkdir dir="${build.dest}/${final.name}"/>
+        <mkdir dir="${classes.dir}/src"/>
+        <mkdir dir="${classes.dir}/test"/>
+        <!-- 创建工程临时build需要的路径 -->
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dir}/WEB-INF"/>
+        <mkdir dir="${build.dir}/WEB-INF/classes"/>
+        <mkdir dir="${build.dir}/WEB-INF/lib"/>
+    </target>
+
+    <!-- 编译 -->
+    <target name="compile" depends="init">
+        <echo message="compile the source file..." />
+        <javac srcdir="${src.dir}" destdir="${classes.dir}/src" debug="true" encoding="utf-8">
+            <classpath refid="compile.classpath"/>
+        </javac>
+        <javac srcdir="${test.dir}" destdir="${classes.dir}/test" debug="true" encoding="utf-8">
+            <classpath refid="compile.classpath"/>
+        </javac>
+        <!-- 将配置文件复制过去 -->
+        <echo message="copy the file..."/>
+        <copy todir="${classes.dir}/src">
+            <fileset dir="${src.dir}">
+                <include name="*.*"/>
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+        <!-- 将测试代码配置文件复制过去 -->
+        <copy todir="${classes.dir}/test">
+            <fileset dir="${test.dir}">
+                <include name="*.*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- 复制文件 -->
+    <target name="copy" depends="compile">
+        <!-- 将编译好的class和其它所有文件复制到临时构建目录 -->
+        <echo message="copy the file..."/>
+        <copy todir="${build.dir}/WEB-INF/classes">
+            <fileset dir="${classes.dir}/src">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}">
+            <fileset dir="${webroot.dir}"/>
+        </copy>
+    </target>
+
+    <!-- 打包成war包发布工程 -->
+    <target name="distribution" depends="copy">
+        <jar jarfile="${build.dest}/${final.name}/${build.name}.war">
+            <fileset dir="${build.dir}"/>
+            <exclude name="**/*test.*"/>
+            <exclude name="**/test*.*"/>
+            <manifest>
+                <attribute name="Specification-Title" value="${build.name}"/>
+                <attribute name="Created-By" value="${build.created-by}"/>
+                <attribute name="Specification-Version" value="${build.name}"/>
+                <attribute name="Specification-Vendor" value="${build.vendor}"/>
+            </manifest>
+        </jar>
+        <echo message="Deleting package of before files..."/>
+        <!-- 清除classes目录 -->
+        <delete dir="${build.dir}"/>
+    </target>
+</project>
