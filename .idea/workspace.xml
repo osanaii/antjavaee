@@ -129,8 +129,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="355" />
-    <option name="y" value="162" />
+    <option name="x" value="-4" />
+    <option name="y" value="-4" />
     <option name="width" value="1374" />
     <option name="height" value="732" />
   </component>
@@ -228,7 +228,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1560829856685</updated>
-      <workItem from="1560829859545" duration="6624000" />
+      <workItem from="1560829859545" duration="6975000" />
     </task>
     <task id="LOCAL-00001" summary="md">
       <created>1560843023685</created>
@@ -286,11 +286,18 @@
       <option name="project" value="LOCAL" />
       <updated>1560844765886</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="md">
+      <created>1560844987660</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1560844987660</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6624000" />
+    <option name="totallyTimeSpent" value="6975000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
