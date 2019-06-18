@@ -87,7 +87,7 @@
 
     <!-- 打包成war包发布工程 -->
     <target name="distribution" depends="copy">
-        <jar jarfile="${build.dest}/${final.name}/${build.name}.war">
+        <jar jarfile="${build.dest}/${build.name}.war">
             <fileset dir="${build.dir}"/>
             <exclude name="**/*test.*"/>
             <exclude name="**/test*.*"/>
